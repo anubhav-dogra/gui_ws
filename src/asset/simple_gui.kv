@@ -1,0 +1,15 @@
+FloatLayout:
+    
+    MDSlider:
+        id: my_slider
+        min: 0
+        max: 100
+        value: 40
+        hint:True
+        on_touch_move: app.slider_func(my_slider.value)
+
+    MDLabel:
+        text: 'Speed: %s' % int(my_slider.value)
+        halign: "center"
+        size_hint: 0.25, 0.25
+        pos_hint: {"center_x": .5, "center_y": 0.8}     

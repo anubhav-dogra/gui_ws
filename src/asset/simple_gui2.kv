@@ -1,0 +1,39 @@
+FloatLayout:
+    canvas:
+        Color:
+            rgba: (1,1,1,0.5)
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+                
+    MDLabel:
+        canvas: 
+            Color:
+                rgba: (0,0,0,0.2)
+            
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [25]
+
+
+
+        text: "Label1"
+        halign: "center"
+        size_hint: 0.25, 0.25
+        pos_hint: {"center_x": .25, "center_y": 0.8}
+
+
+    MDRaisedButton:
+        canvas:
+            Color:
+                rgba: (1,1,1,0.5)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        text: "button 1"
+        size_hint: 0.25, 0.25
+        pos_hint: {"center_x": .5, "center_y": 0.8}
