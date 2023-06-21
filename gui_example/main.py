@@ -3,17 +3,18 @@ import roslaunch
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
 from kivymd.uix.snackbar.snackbar import Snackbar
+from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.uix.gridlayout import GridLayout
 from kivy.metrics import dp
-from items.divide_layout import DivideLayout
-# from items.command_buttons import *
-# from items.reference_buttons import *
+from divide_layout import DivideLayout
+from command_buttons import *
+# from reference_buttons import *
 # from items.programming_buttons import *
-# from items.robot_program import RobotItem , RobotProgram
+from robot_program import RobotItem , RobotProgram
 
 
-class MyApp(MDApp):
+class MainApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -31,35 +32,59 @@ class MyApp(MDApp):
 
     def build(self):
         root = BoxLayout(orientation='vertical', spacing=2)
-        layout = DivideLayout(2, orientation='horizontal')
+        layout = DivideLayout(4, orientation='horizontal')
         menu_items = [
-            {
-                "viewclass": "OneLinelistItem",
-                "text": "Open",
-                "height": dp(56)
-                "on_release": lambda x = "Open":self.menu_callback(x)
+                    {
+                        "viewclass": "OneLinelistItem",
+                        "text": "Open",
+                        "height": dp(56),
+                        "on_release": lambda x = "Open":self.menu_callback(x)
 
-            },
-            {
-                "viewclass": "OneLinelistItem",
-                "text": "Save",
-                "height": dp(56)
-                "on_release": lambda x = "Save":self.menu_callback(x)
-            }
+                    },
+                    {
+                        "viewclass": "OneLinelistItem",
+                        "text": "Save",
+                        "height": dp(56),
+                        "on_release": lambda x = "Save":self.menu_callback(x)
+                    }
         ]
+
         self.menu=MDDropdownMenu(
             items=menu_items,
             width_mult=4
         )
 
-        toolbar=MDToolbar(title="GUI_Created_with_DSL")
+        toolbar=MDTopAppBar(title="GUI")
         toolbar.left_action_items = [["menu", lambda x:self.open_menu(x)]]
 
         layout.add_widget(toolbar)
-        button_layout1 = GridLayout(cols=3)
-        button_layout1.add_widget(MoveTo())
-        button_layout1.add_widget(ViaPoint())
-        button_layout1.add_widget(Open())
-        button_layout1.add_widget(Close())
-        button_layout1.add_widget(Test_iiwa())
+        button_layout1 = GridLayout(cols=2)
+        button_layout1.add_widget(Robot_start())
+        button_layout1.add_widget(KillRobot())
+        button_layout1.add_widget(Cam_start())
+        button_layout1.add_widget(KillCam())
+        # button_layout1.add_widget(Open())
+        button_layout2 = GridLayout(cols=2)
+        button_layout2.add_widget(Robot_start())
+        button_layout2.add_widget(KillRobot())
+        button_layout2.add_widget(Cam_start())
+        button_layout2.add_widget(KillCam())
         
+
+        layout.add_widget_to_layout(DivideLayout(2, orientation='vertical'),0)
+        left = layout.get_widget(0)
+        left.add_widget_to_layout(button_layout1, 0)
+        left.add_widget_to_layout(button_layout2, 1)
+
+        robot_program = RobotProgram("Robot")
+        for i in range(5):
+            robot_program.add_item(RobotItem(
+                robot_program, text=f"command_{i}"
+            ))
+        layout.add_widget_to_layout(robot_program, 1)
+        root.add_widget(toolbar)
+        root.add_widget(layout)
+        return root
+
+
+MainApp().run()

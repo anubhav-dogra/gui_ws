@@ -1,15 +1,69 @@
 FloatLayout:
-
-    MDLabel:
-        id: my_label
-        text: "Hello World"
-        halign: "center"
-        size_hint: 1, 1
-        pos_hint: {"center_x": .25, "center_y": 0.8}
     
     MDRaisedButton:
-        id: my_button
-        text: "Button"
+        id: iiwa_launch
+        text: "Launch Robot"
         size_hint: 0.1, 0.1
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        on_press: app.my_function(*args)
+        pos_hint: {"center_x": 0.1, "center_y": 0.9}
+        on_press: app.launch_robot(*args)
+
+    MDRaisedButton:
+        id: planner
+        text: "Cam/Planner"
+        size_hint: 0.1, 0.1
+        pos_hint: {"center_x": 0.1, "center_y": 0.75}
+        on_press: app.launch_camera(*args)
+
+    MDRaisedButton:
+        canvas:
+            Color:
+                rgba: (1,0,0,0.5)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        text: "Kill Robot"
+        size_hint: 0.1, 0.1
+        pos_hint: {"center_x": 0.25, "center_y": 0.9}
+        on_press: app.kill_robot(*args)
+
+    MDRaisedButton:
+        canvas:
+            Color:
+                rgba: (1,0,0,0.5)
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        text: "Kill Cam"
+        size_hint: 0.1, 0.1
+        pos_hint: {"center_x": 0.25, "center_y": 0.75}
+        on_press: app.kill_camera(*args)
+
+
+
+    MDIconButton:
+        icon: "/home/terabotics/gui_ws/icons/arrow_l.png"
+        size_hint: 0.1, 0.1
+        icon_size: "100sp"
+        pos_hint: {"center_x": 0.1, "center_y": 0.15}
+    MDIconButton:
+        icon: "/home/terabotics/gui_ws/icons/arrow_r.png"
+        size_hint: 0.1, 0.1
+        icon_size: "100sp"
+        pos_hint: {"center_x": 0.25, "center_y": 0.15}
+    MDIconButton:
+        icon: "/home/terabotics/gui_ws/icons/arrow_u.png"
+        size_hint: 0.1, 0.1
+        icon_size: "100sp"
+        
+        pos_hint: {"center_x": 0.175, "center_y": 0.2}
+    MDIconButton:
+        icon: "/home/terabotics/gui_ws/icons/arrow_d.png"
+        size_hint: 0.1, 0.1
+        icon_size: "100sp"
+    
+        pos_hint: {"center_x": 0.175, "center_y": 0.1}
+    

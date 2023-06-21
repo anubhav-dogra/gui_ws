@@ -37,3 +37,19 @@ FloatLayout:
         text: "button 1"
         size_hint: 0.25, 0.25
         pos_hint: {"center_x": .5, "center_y": 0.8}
+
+
+    MDRaisedButton:
+        canvas:
+            Color:
+                rgba: (0.65,0,0,1)
+
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [25]
+
+        text: "Kill Robot"
+        size_hint: 0.1, 0.1
+        pos_hint: {"center_x": 0.25, "center_y": 0.9}
+        on_press: app.kill_robot(*args)
