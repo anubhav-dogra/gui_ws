@@ -3,6 +3,7 @@ import roslaunch
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Int8
 from std_msgs.msg import Bool
+
 from kivymd.app import MDApp
 from kivy.lang import Builder
 
@@ -11,19 +12,20 @@ pose_msg = PoseStamped()
 class TutorialApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        self.screen = Builder.load_file('/home/terabotics/gui_ws/src/asset/ros_gui.kv')
+        self.screen = Builder.load_file('/home/anubhav/gui_ws/src/asset/gui_test.kv')
         # can add more 
         # self.screen = Builder.load_file('/home/terabotics/gui_ws/src/asset/simple_gui2.kv')
 
 
     def build(self):
+        # self.theme_cls.theme_style="Dark"
+        # self.theme_cls.primary_palette="Orange"
         return self.screen
     
     def launch_robot(self, *args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
-        cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14']
+        cli_args = ["/home/anubhav/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14']
         roslaunch_args = cli_args[1:]
         roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0], roslaunch_args)]
 
@@ -45,7 +47,7 @@ class TutorialApp(MDApp):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         # cli_args = ["/opt/ros/noetic/share/realsense2_camera/launch/rs_camera.launch",'align_depth:=true', 'filters:=pointcloud']
-        cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/cam_viz.launch"]
+        cli_args = ["/home/anubhav/stuff_ws/src/tera_iiwa_ros/launch/cam_viz.launch"]
         roslaunch_args = cli_args[1:]
         roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0], roslaunch_args)]
         self.camera = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
