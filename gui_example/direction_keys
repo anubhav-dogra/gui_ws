@@ -1,0 +1,26 @@
+import rospy
+import roslaunch
+
+def update(self, x, y, z, xr, yr, zr, wr, tup):
+        # self.condition.acquire()
+        new_x = x   + tup[0]
+        new_y = y   + tup[1]
+        new_z = z   + tup[2]
+        new_xr = xr + tup[3]
+        new_yr = yr + tup[4]
+        new_zr = zr + tup[5]
+        new_wr = wr + tup[6]
+        # Notify publish thread that we have a new message.
+        # self.condition.notify()
+        # self.condition.release()
+        self.pose_msg.header.frame_id= "world"
+        self.pose_msg.header.stamp = rospy.Time.now()
+        self.pose_msg.pose.position.x = new_x
+        self.pose_msg.pose.position.y = new_y
+        self.pose_msg.pose.position.z = new_z
+        self.pose_msg.pose.orientation.x = new_xr
+        self.pose_msg.pose.orientation.y = new_yr
+        self.pose_msg.pose.orientation.z = new_zr
+        self.pose_msg.pose.orientation.w = new_wr
+
+        return self.pose_msg
