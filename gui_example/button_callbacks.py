@@ -36,19 +36,19 @@ def launch_detection(self):
     global markers
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
-    cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/detection.launch"]
+    cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/one_in_all.launch"]
     # roslaunch_args = cli_args[1:]
     roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0])]
     markers = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
     markers.start()
-    rospy.loginfo("marker started")
+    rospy.loginfo("Marker Detection/Pose Estimation// Transformation all ok")
     # return(markers)
 
 def launch_wrench(self):
     global wrenches
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
-    cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/wrench_info.launch"]
+    cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/get_wrench.launch"]
     # roslaunch_args = cli_args[1:]
     roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0])]
     wrenches = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
