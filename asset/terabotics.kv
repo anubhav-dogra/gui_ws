@@ -1,0 +1,76 @@
+#:import utils kivy.utils
+<Button>
+    font_size: 24
+    size_hint: (0.2, 0.2)
+FloatLayout:
+    size: root.width, root.height
+
+    Button:
+        id: detection_id
+        text: "Detect Markers"
+        background_color: (0, 1, 0, 1)
+        pos_hint: {"x":0, "top":1 }
+        on_press: app.launch_detection(*args)
+
+    Button:
+        id: kill_detection_id
+        text: "Kill Detect Markers"
+        background_color: 
+        pos_hint: {"x":0.2, "top":1 }
+        on_press: app.kill_marker(*args)
+
+    Button:
+        id: wrench_id
+        text: "Tip Forces"
+        background_color: utils.get_color_from_hex("#84bd9b")
+        pos_hint: {"x":0.0, "top":0.8 }
+        on_press: app.launch_wrench(*args)
+
+    Button:
+        id: kil_wrench_id
+        text: "Kill Tip Forces"
+        background_color: 
+        pos_hint: {"x":0.2, "top":0.8 }
+        on_press: app.kill_wrench(*args)
+    
+    Button:
+        id: target_id
+        text: "Send Target Pose"
+        background_color: utils.get_color_from_hex("#ff6a46")
+        pos_hint: {"x":0.0, "top":0.6}
+        on_press: app.send_robot_target(*args)
+
+    Button:
+        id: kill_target_id
+        text: "Kill Target Pose"
+        background_color: 
+        pos_hint: {"x":0.2, "top":0.6}
+        on_press: app.stop_robot_target(*args)
+    
+    Button:
+        id: motion_id
+        text: "Init Robot Motion"
+        background_color: utils.get_color_from_hex("#008aff")
+        pos_hint: {"x":0.0, "top":0.4 }
+        on_press: app.init_robot_motion(*args)
+
+    Button:
+        id: kill_motion_id
+        text: "Kill Robot Motion"
+        background_color: 
+        pos_hint: {"x":0.2, "top":0.4 }
+        on_press: app.stop_robot_motion(*args)
+
+    Button:
+        id: force_id
+        text: "Force Controller"
+        background_color: utils.get_color_from_hex("#6731a1")
+        pos_hint: {"x":0.0, "top":0.2 }
+        on_press: app.force_controller(*args)
+    
+    Button:
+        id: kill_force_id
+        text: "Kill Force Controller"
+        background_color:
+        pos_hint: {"x":0.2, "top":0.2 }
+        on_press: app.kill_force(*args)  
