@@ -1,0 +1,128 @@
+#:import utils kivy.utils
+<Button>
+    font_size: 20
+    # background_normal: ''
+    # color: (0,0,0,1)
+    # bold: True
+FloatLayout:
+    size: root.width, root.height
+
+    MDLabel:
+        id: detection_status
+        text: "Marker Detection"
+        halign: "center"
+        font_size: 18
+        theme_text_color: "Custom"
+        md_bg_color:  1, 0, 0, 0.3
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.0, "top":1 }
+        color: (0,0,0,1)
+        
+    Switch:
+        active: False
+        id: detection_id
+        text: "Detect Markers"
+        background_color: (0, 1, 0, 1)
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.2, "top":1 }
+        on_active: app.switch_detection(self,self.active)
+
+    MDLabel:
+        id: wrench_status
+        text: "Compute Tip Force"
+        font_size: 18
+        theme_text_color: "Custom"
+        md_bg_color:  1, 0, 0, 0.7
+        halign: "center"
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.0, "top":0.8 }
+        color: (0,0,0,1)
+
+    Switch:
+        active: False
+        id: wrench_id
+        text: "Tip Forces"
+        background_color: utils.get_color_from_hex("#84bd9b")
+        pos_hint: {"x":0.2, "top":0.8 }
+        size_hint: (0.2, 0.2)
+        on_active: app.switch_wrench(self,self.active)
+
+    MDLabel:
+        id: motion_status
+        text: "Robot Motion"
+        font_size: 18
+        halign: "center"
+        theme_text_color: "Custom"
+        md_bg_color:  1, 0, 0, 0.3
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.0, "top":0.6 }
+        color: (0,0,0,1)
+
+    Switch:
+        active: False
+        id: motion_id
+        text: "Init Robot Motion"
+        pos_hint: {"x":0.2, "top":0.6 }
+        size_hint: (0.2, 0.2)
+        on_active: app.switch_robot_motion(self,self.active)
+
+
+    MDLabel:
+        id: target_status
+        text: "Send Target to Robot"
+        font_size: 18
+        halign: "center"
+        theme_text_color: "Custom"
+        md_bg_color:  1, 0, 0, 0.7
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.0, "top":0.4 }
+        color: (0,0,0,1)
+
+    Switch:
+        active: False
+        id: target_id
+        text: "Send Target Pose"
+        background_color: utils.get_color_from_hex("#ff6a46")
+        pos_hint: {"x":0.2, "top":0.4}
+        size_hint: (0.2, 0.2)
+        on_active: app.switch_target_pose(self,self.active)
+
+    MDLabel:
+        id: force_c_status
+        text: "Force Controller"
+        font_size: 18
+        halign: "center"
+        theme_text_color: "Custom"
+        md_bg_color:  1, 0, 0, 0.3
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.0, "top":0.2 }
+        color: (0,0,0,1)
+
+    Switch:
+        active: False
+        id: force_id
+        text: "Force Controller"
+        background_color: utils.get_color_from_hex("#6731a1")
+        pos_hint: {"x":0.2, "top":0.2 }
+        size_hint: (0.2, 0.2)
+        on_active: app.switch_force_controller(self,self.active)
+    
+    Button:
+        id: home
+        text: "Home Pose"
+        background_color: 0, 0, 1, 0.75
+        pos_hint: {"x":0.8, "top":1 }
+        size_hint: (0.2, 0.2)
+        on_press: app.home_position(*args) 
+
+
+
+    MDLabel:
+        id: disp_current_force
+        text: "smthng"
+        font_size: 18
+        halign: "center"
+        size_hint: (0.2, 0.2)
+        pos_hint: {"x":0.4, "top":0.8 }
+        color: (0,0,0,1)
+        bold: True

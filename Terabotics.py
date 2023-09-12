@@ -25,7 +25,37 @@ class TeraboticsApp(MDApp):
 
         return self.screen
 
-    
+    def home_position(self,*args):
+        rospy.init_node("home_pose", anonymous=True)
+        pub_home_pose =rospy.Publisher("/cartesian_trajectory_generator/new_goal", PoseStamped, queue_size=1 )
+        home_pose = PoseStamped()
+        home_pose.header.frame_id= "world"
+        home_pose.header.stamp=rospy.Time.now()
+        home_pose.pose.position.x= -0.62
+        home_pose.pose.position.y= 0
+        home_pose.pose.position.z= 0.2
+        home_pose.pose.orientation.x = 0.7
+        home_pose.pose.orientation.y = 0.7
+        home_pose.pose.orientation.z = 0
+        home_pose.pose.orientation.w = 0
+        pub_home_pose.publish(home_pose)
+
+    def switch_detection(self,switchObject,switchValue):
+        if (switchValue):
+            uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+            roslaunch.configure_logging(uuid)
+            cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/one_in_all.launch"]
+            # roslaunch_args = cli_args[1:]
+            roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0])]
+            self.markers = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
+            self.markers.start()
+            rospy.loginfo("Marker Detection/Pose Estimation// Transformation all ok")
+            # self.text = "Detecting Now"
+            # return(markers)
+        else:
+            self.markers.shutdown()
+        return(self.markers)
+        
     def launch_detection(self,*args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
@@ -37,9 +67,9 @@ class TeraboticsApp(MDApp):
         rospy.loginfo("Marker Detection/Pose Estimation// Transformation all ok")
         # self.text = "Detecting Now"
         # return(markers)
-        return(self.robot)
+        return(self.markers)
 
-    def launch_wrench(self):
+    def launch_wrench(self,*args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/get_wrench_sim.launch"]
@@ -51,7 +81,7 @@ class TeraboticsApp(MDApp):
         # tip_forces=True
         return(self.wrenches)
 
-    def send_target_pose(self):
+    def send_target_pose(self,*args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/send_target_pose.launch"]
@@ -62,7 +92,7 @@ class TeraboticsApp(MDApp):
         rospy.loginfo("RObot in Motion")
         return(self.target_pose)
 
-    def init_robot_motion(self):
+    def init_robot_motion(self,*args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/init_robot_motion.launch"]
@@ -74,7 +104,7 @@ class TeraboticsApp(MDApp):
         self.text = "Robot Ready to Send Target"
         return(self.move_)
 
-    def force_controller(self):
+    def force_controller(self,*args):
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/force_controller.launch"]

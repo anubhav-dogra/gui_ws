@@ -1,7 +1,9 @@
 #:import utils kivy.utils
 <Button>
-    font_size: 24
-    size_hint: (0.2, 0.2)
+    font_size: 20
+    # background_normal: ''
+    # color: (0,0,0,1)
+    # bold: True
 FloatLayout:
     size: root.width, root.height
 
@@ -9,6 +11,7 @@ FloatLayout:
         id: detection_id
         text: "Detect Markers"
         background_color: (0, 1, 0, 1)
+        size_hint: (0.2, 0.2)
         pos_hint: {"x":0, "top":1 }
         on_press: app.launch_detection(*args)
 
@@ -16,6 +19,7 @@ FloatLayout:
         id: kill_detection_id
         text: "Kill Detect Markers"
         background_color: 
+        size_hint: (0.2, 0.2)
         pos_hint: {"x":0.2, "top":1 }
         on_press: app.kill_marker(*args)
 
@@ -24,6 +28,7 @@ FloatLayout:
         text: "Tip Forces"
         background_color: utils.get_color_from_hex("#84bd9b")
         pos_hint: {"x":0.0, "top":0.8 }
+        size_hint: (0.2, 0.2)
         on_press: app.launch_wrench(*args)
 
     Button:
@@ -31,6 +36,7 @@ FloatLayout:
         text: "Kill Tip Forces"
         background_color: 
         pos_hint: {"x":0.2, "top":0.8 }
+        size_hint: (0.2, 0.2)
         on_press: app.kill_wrench(*args)
     
     Button:
@@ -38,20 +44,23 @@ FloatLayout:
         text: "Send Target Pose"
         background_color: utils.get_color_from_hex("#ff6a46")
         pos_hint: {"x":0.0, "top":0.6}
-        on_press: app.send_robot_target(*args)
+        size_hint: (0.2, 0.2)
+        on_press: app.send_target_pose(*args)
 
     Button:
         id: kill_target_id
         text: "Kill Target Pose"
         background_color: 
         pos_hint: {"x":0.2, "top":0.6}
-        on_press: app.stop_robot_target(*args)
+        size_hint: (0.2, 0.2)
+        on_press: app.stop_target_pose(*args)
     
     Button:
         id: motion_id
         text: "Init Robot Motion"
         background_color: utils.get_color_from_hex("#008aff")
         pos_hint: {"x":0.0, "top":0.4 }
+        size_hint: (0.2, 0.2)
         on_press: app.init_robot_motion(*args)
 
     Button:
@@ -59,6 +68,7 @@ FloatLayout:
         text: "Kill Robot Motion"
         background_color: 
         pos_hint: {"x":0.2, "top":0.4 }
+        size_hint: (0.2, 0.2)
         on_press: app.stop_robot_motion(*args)
 
     Button:
@@ -66,6 +76,7 @@ FloatLayout:
         text: "Force Controller"
         background_color: utils.get_color_from_hex("#6731a1")
         pos_hint: {"x":0.0, "top":0.2 }
+        size_hint: (0.2, 0.2)
         on_press: app.force_controller(*args)
     
     Button:
@@ -73,4 +84,13 @@ FloatLayout:
         text: "Kill Force Controller"
         background_color:
         pos_hint: {"x":0.2, "top":0.2 }
-        on_press: app.kill_force(*args)  
+        size_hint: (0.2, 0.2)
+        on_press: app.kill_force(*args) 
+
+    Button:
+        id: home
+        text: "Home"
+        background_color: utils.get_color_from_hex("#FFFF00")
+        pos_hint: {"x":0.8, "top":1 }
+        size_hint: (0.2, 0.2)
+        on_press: app.home_position(*args) 
