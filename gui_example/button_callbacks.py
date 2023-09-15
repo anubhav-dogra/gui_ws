@@ -35,7 +35,8 @@ def launch_robot(self):
     global robot
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
-    cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14']
+    cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
+    # cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_driver/launch/iiwa_bringup.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
     roslaunch_args = cli_args[1:]
     roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0], roslaunch_args)]
     robot = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)

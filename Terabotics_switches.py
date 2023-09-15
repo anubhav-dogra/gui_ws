@@ -1,6 +1,6 @@
 import rospy
 import roslaunch
-from geometry_msgs.msg import PoseStamped, WrenchStamped
+from geometry_msgs.msg import PoseStamped, WrenchStamped, TransformStamped
 from std_msgs.msg import Int8
 from std_msgs.msg import Bool
 
@@ -22,6 +22,7 @@ class TeraboticsApp(MDApp):
         self.curr_Fz = 0
         self.count = 0
         self.wrench_button = False
+        self.detection_button = False
         Clock.schedule_interval(self.wrench_callback, 1)
 
     def build(self):
@@ -55,10 +56,12 @@ class TeraboticsApp(MDApp):
             rospy.loginfo("Marker Detection/Pose Estimation// Transformation all ok")
             # self.text = "Detecting Now"
             # return(markers)
-            self.root.ids.detection_status.md_bg_color = 0, 1, 0, 0.3
+            self.root.ids.detection_status.md_bg_color = 0, 1, 0, 0.5
+            self.detection_button_button = True
         else:
+            self.detection_button_button = False
             self.markers.shutdown()
-            self.root.ids.detection_status.md_bg_color = 1, 0, 0, 0.3
+            self.root.ids.detection_status.md_bg_color = 1, 0, 0, 0.5
         return(self.markers)
         
 
@@ -67,17 +70,18 @@ class TeraboticsApp(MDApp):
             uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
             roslaunch.configure_logging(uuid)
             cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/get_wrench_sim.launch"]
+            # cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/get_wrench.launch"]
             # roslaunch_args = cli_args[1:]
             roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0])]
             self.wrenches = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
             self.wrenches.start()
             rospy.loginfo("Wrench info ON")
-            self.root.ids.wrench_status.md_bg_color = 0, 1, 0, 0.7
+            self.root.ids.wrench_status.md_bg_color = 0, 1, 0, 0.5
             self.wrench_button = True
         else:
             self.wrenches.shutdown()
             self.wrench_button = False
-            self.root.ids.wrench_status.md_bg_color = 1, 0, 0, 0.7
+            self.root.ids.wrench_status.md_bg_color = 1, 0, 0, 0.5
         return(self.wrenches)
 
     def switch_robot_motion(self,switchObject,switchValue):
@@ -91,10 +95,10 @@ class TeraboticsApp(MDApp):
             self.move_.start()
             rospy.loginfo("Robot Ready to Send Target")
             self.text = "Robot Ready to Send Target"
-            self.root.ids.motion_status.md_bg_color = 0, 1, 0, 0.3
+            self.root.ids.motion_status.md_bg_color = 0, 1, 0, 0.5
         else:
             self.move_.shutdown()
-            self.root.ids.motion_status.md_bg_color = 1, 0, 0, 0.3
+            self.root.ids.motion_status.md_bg_color = 1, 0, 0, 0.5
         return(self.move_)
     
     def switch_target_pose(self,switchObject,switchValue):
@@ -107,10 +111,10 @@ class TeraboticsApp(MDApp):
             self.target_pose = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
             self.target_pose.start()
             rospy.loginfo("RObot in Motion")
-            self.root.ids.target_status.md_bg_color = 0, 1, 0, 0.7
+            self.root.ids.target_status.md_bg_color = 0, 1, 0, 0.5
         else:
             self.target_pose.shutdown()
-            self.root.ids.target_status.md_bg_color = 1, 0, 0, 0.7
+            self.root.ids.target_status.md_bg_color = 1, 0, 0, 0.5
         return(self.target_pose)
 
     def switch_force_controller(self,switchObject,switchValue):
@@ -124,19 +128,56 @@ class TeraboticsApp(MDApp):
             self.force_.start()
             rospy.loginfo("FORCE controller ACTIVE")
             # self.text = "Robot Ready to Send Target"
-            self.root.ids.force_c_status.md_bg_color = 0, 1, 0, 0.3
+            self.root.ids.force_c_status.md_bg_color = 0, 1, 0, 0.5
         else:
             self.force_.shutdown()
-            self.root.ids.force_c_status.md_bg_color = 1, 0, 0, 0.3
+            self.root.ids.force_c_status.md_bg_color = 1, 0, 0, 0.5
         return(self.force_)
+    
+    def switch_terasmart(self,switchObject,switchValue):
+        if (switchValue):
+            uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+            roslaunch.configure_logging(uuid)
+            cli_args = ["/home/terabotics/stuff_ws/src/tera_iiwa_ros/launch/terasmart_launch.launch"]
+            # roslaunch_args = cli_args[1:]
+            roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0])]
+            self.terasmart_ = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
+            self.terasmart_.start()
+            rospy.loginfo("terasmart ACTIVE")
+            # self.text = "Robot Ready to Send Target"
+            self.root.ids.terasmart_status.md_bg_color = 0, 1, 0, 0.5
+        else:
+            self.terasmart_.shutdown()
+            self.root.ids.terasmart_status.md_bg_color = 1, 0, 0, 0.5
+        return(self.terasmart_)
     
     def wrench_callback(self, dt):
         if (self.wrench_button):
-            force_msg = rospy.wait_for_message("/cartesian_wrench_tool", WrenchStamped, rospy.Duration(10))
+            force_msg = rospy.wait_for_message("/cartesian_wrench_tool", WrenchStamped, rospy.Duration(5))
             self.curr_Fz = force_msg.wrench.force.z
             self.root.ids.disp_current_force.text = "Current Fz:" + str(self.curr_Fz)
+            curr_pose = rospy.wait_for_message("/tool_link_ee_pose", TransformStamped, rospy.Duration(5))
+            self.root.ids.disp_current_pose.text = "Current Pose:" + "\n[pose x: " + str(round(curr_pose.transform.translation.x,3))\
+                                                                   + "\n pose y: " + str(round(curr_pose.transform.translation.y,3))\
+                                                                   + "\n pose z: " + str(round(curr_pose.transform.translation.z, 3))\
+                                                                   + "\nOrient x: " + str(round(curr_pose.transform.rotation.x, 3))\
+                                                                   + "\nOrient y: " + str(round(curr_pose.transform.rotation.y, 3))\
+                                                                   + "\nOrient z: " + str(round(curr_pose.transform.rotation.z, 3))\
+                                                                   + "\nOrient w: " + str(round(curr_pose.transform.rotation.w, 3)) + "]"
+                                                                     
+
         else:
             self.root.ids.disp_current_force.text = "Wrench OFF"
+
+        # if (self.detection_button):
+        #     target_pose_array = rospy.wait_for_message("/tf_array_out_dZ", PoseStamped, rospy.Duration(5))
+        #     targ_pose = PoseStamped()
+        #     targ_pose.pose = target_pose_array.poses[0]
+        # else:
+        #     self.root.ids.disp_target_pose.text = "Not Coming up"
+
+
+
         # self.count = self.count+1
         # self.root.ids.disp_current_force.text = "Current Fz:" + str(self.count)
 
