@@ -16,9 +16,9 @@ def home_position(self):
     home_pose = PoseStamped()
     home_pose.header.frame_id= "world"
     home_pose.header.stamp=rospy.Time.now()
-    home_pose.pose.position.x= -0.62
+    home_pose.pose.position.x= -0.6
     home_pose.pose.position.y= 0
-    home_pose.pose.position.z= 0.2
+    home_pose.pose.position.z= 0.3
     home_pose.pose.orientation.x = 0.7
     home_pose.pose.orientation.y = 0.7
     home_pose.pose.orientation.z = 0
@@ -31,12 +31,25 @@ def signal_on(self):
     else:
         self.background_color = (1,0,0,1) 
 
-def launch_robot(self):
-    global robot
+def launch_robot_sim(self):
+    global robot_sim
     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
     roslaunch.configure_logging(uuid)
     cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
     # cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_driver/launch/iiwa_bringup.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
+    roslaunch_args = cli_args[1:]
+    roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0], roslaunch_args)]
+    robot_sim = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
+    robot_sim.start()
+    rospy.loginfo("robot sim started")
+    # return(robot)
+
+def launch_robot(self):
+    global robot
+    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+    roslaunch.configure_logging(uuid)
+    # cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_gazebo/launch/iiwa_gazebo.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
+    cli_args = ["/home/terabotics/stuff_ws/src/iiwa_ros/iiwa_driver/launch/iiwa_bringup.launch",'model:=iiwa14', 'controller:=CartesianImpedance_trajectory_controller']
     roslaunch_args = cli_args[1:]
     roslaunch_file = [(roslaunch.rlutil.resolve_launch_arguments(cli_args)[0], roslaunch_args)]
     robot = roslaunch.parent.ROSLaunchParent(uuid,roslaunch_file)
@@ -126,6 +139,10 @@ def force_controller(self):
   
 def kill_robot(self, *args):
         robot.shutdown()
+        self.background_color = (1,0,0,1)
+
+def kill_robot_sim(self, *args):
+        robot_sim.shutdown()
         self.background_color = (1,0,0,1)
 
 def kill_camera(self, *args):

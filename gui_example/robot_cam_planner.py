@@ -63,6 +63,8 @@ class MainApp(MDApp):
         # section1 = BoxLayout(orientation='horizontal',spacing=2)
         # layout.add_widget(section1)
         button_layout1 = GridLayout(cols=2)
+        button_layout1.add_widget(Robot_start_sim())
+        button_layout1.add_widget(KillRobotSim())
         button_layout1.add_widget(Robot_start())
         button_layout1.add_widget(KillRobot())
         button_layout1.add_widget(Cam_start())

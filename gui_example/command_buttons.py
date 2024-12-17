@@ -37,6 +37,14 @@ class Robot_start(Button):
         self.font_size = "24sp"
         self.bind(on_press=launch_robot)
 
+class Robot_start_sim(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.background_color = (0.95,0.5,0,1)
+        self.text = "Launch Robot Sim"
+        self.font_size = "24sp"
+        self.bind(on_press=launch_robot_sim)
+
 class Cam_start(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -102,6 +110,14 @@ class KillRobot(Button):
         self.text = "Kill Robot"
         self.font_size = "24sp"
         self.bind(on_press=kill_robot)
+
+class KillRobotSim(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.background_color = (178.0/255.0,190.0/255.0, 181.0/255.0,1)
+        self.text = "Kill Robot Sim"
+        self.font_size = "24sp"
+        self.bind(on_press=kill_robot_sim)
 
 class KillCam(Button):
     def __init__(self, **kwargs):
